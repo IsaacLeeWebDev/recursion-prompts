@@ -7,46 +7,109 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+	return n < 0 ? null : n === 0 ? 1 : n === 1 ? 1 : n * factorial(n - 1);
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+	return array.length === 0 ? 0 : array[0] + sum(array.slice(1));
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+	var arr = [].concat.apply([], array);
+	let anyArrays = false;
+	console.log(arr);
+	for(let i = 0; i < arr.length; i++) {
+		if(Array.isArray(arr[i])) {
+			anyArrays = true;
+		};
+	};
+
+
+	return array.length === 0 ? 0 : anyArrays ? arraySum(arr) : arr[0] + sum(arr.slice(1))
+	// return array.length === 0 ? 0 : Array.isArray(array[0]) === 0 ? 
 };
+
+// [[1], 2, 3]
+// [1].pop()
+// [1, 2, 3]
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+	return n < 0 ? isEven(-n) : n === 1 ? false : n === 0 ? true : isEven(n - 2)
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+	return n > 0 ? n === 0 ? 0 : (n - 1) + sumBelow(n - 1) : n === 0 ? 0 : (n + 1) + sumBelow(n + 1);
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
-var range = function(x, y) {
+var range = function(x, y) { 
+	return y - x === 0  || y - x === 1 || y - x === -1 ? [] : !Array.isArray(x) ? x > y ? range([x - 1], y) : range([x + 1], y) : x[0] - y === x.length || x[0] - y === x.length * -1  ? x : x[x.length - 1] > y ? range(x.concat([x[x.length - 1] - 1]) ,y) : range(x.concat([x[x.length - 1] + 1]) ,y) 
 };
+
+// 5, 3
+// 5 - 3 === 2 === maxLength
+// [4]
+
+// 3, 5
+// 3 - 5 === -2 === (maxLength) * -1
+// [4]
+// 4 - 5 === -1 === (maxLength) * -1 
+
+// -3, 5
+// -3, -5 === -8 ===  (1 + maxlength) * -1
+// [-4]
+// -4 -(-5) === -1 === maxLength * -1
+
+//  5, -3
+// 5 -(-3) === 8 ===  1 + maxlength
+// [4]
+// 4 - 5 === -1 === (maxLength) * -1 
+
+// -3, -5 
+// -3 -(-5) === 2 === 1 + maxlength
+// [-4]
+
+// -5, -3
+// -5 -(-3) === -2 === (1 + maxlength) * -1
+// [-4]
+
+
+// myArray = new Array((x-y)*(x-y)/(x-y))
+
+// if y === undefined
+	// myArray[x] = x + 1
+	// myArray[myArray.length - 1 ] !== undefined
+	// range(x + 1)
 
 // 7. Compute the exponent of a number.
 // The exponent of a number says how many times the base number is used as a factor.
 // 8^2 = 8 x 8 = 64. Here, 8 is the base and 2 is the exponent.
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
+
 var exponent = function(base, exp) {
+	return exp === 0 ? 1 : exp === 1 ? base : exp > 0 ? base * exponent(base, exp - 1) :  exponent(base, exp + 1) / base
 };
+
+// 8 ^ -1 === 8 / 8 === 1
+// 8 ^ -2 === 8 / 8 / 8 ==== (1/8)
 
 // 8. Determine if a number is a power of two.
 // powerOfTwo(1); // true
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
+
 var powerOfTwo = function(n) {
+	
 };
 
 // 9. Write a function that reverses a string.
