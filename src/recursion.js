@@ -500,16 +500,62 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+
+	let result = 0;
+
+	if(obj === {}) {
+		return 0;
+	};
+
+	for(key in obj) {
+		if(obj[key] % 2 === 0) {
+			result += obj[key];
+		};
+		if(typeof obj[key] === 'object') {
+			result += nestedEvenSum(obj[key]);
+		};
+	};
+	return result;
 };
 
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+
+	let myArray = [];
+	
+	if(array.length === 0) {
+		return [];
+	};
+	for(let i = 0; i < array.length; i++) {
+		if(Array.isArray(array[i])) {
+			myArray = myArray.concat(flatten(array[i]));
+		} else {
+			myArray = myArray.concat(array[i]);
+		};
+	};
+	return myArray;
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {
+
+	if(obj === undefined) {
+		obj = {};
+	};
+
+	if(str.length === 0) {
+		return obj;
+	};
+	if(str.length > 0) {
+		if(obj.hasOwnProperty(str[0])) {
+			obj[str[0]]++;
+		} else {
+			obj[str[0]] = 1;
+		};
+		return letterTally(str.slice(1), obj);
+	};
 };
 
 // 32. Eliminate consecutive duplicates in a list. If the list contains repeated
@@ -518,12 +564,39 @@ var letterTally = function(str, obj) {
 // compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
 var compress = function(list) {
+	console.log(list);
+	if(list.length === 0) {
+		return [];
+	};
+
+	if(list[0] === list[1]) {
+		list = compress(list.slice(1));
+	} else {
+		list = [list[0]].concat(compress(list.slice(1)));
+	};
+	console.log('end', list)
+	return list;
 };
 
 // 33. Augument every element in a list with a new value where each element is an array
 // itself.
 // augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
 var augmentElements = function(array, aug) {
+
+	// let myArray = [];
+	console.log(array);
+	if(array.length === 0) {
+		return array;
+	};
+
+	// if(Array.isArray(array[0])) {
+	// 	array[0] = [array[0], aug];
+	// } else {
+	// 	array[0] = [array[0]].push(aug);
+	// };
+	array[0] = [array[0], aug]
+	array = array[0].push(augmentElements(array.slice(1), aug));
+	// augmentElements(array.slice(1), aug);
 };
 
 // 34. Reduce a series of zeroes to a single 0.
